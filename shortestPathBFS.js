@@ -24,9 +24,38 @@ function shortestPathBFS(s,t,g) {
     // Let Q be a Queue of length at least equal to the number of nodes in G.
     let q = new Queue(g.numberOfNodes());
 
-    // Implementér resten af koden herunder
-    // ...
+//   Let Q be a Queue of length at least equal to the number of nodes in G.
+//     Add s to Q.
+    q.enqueue(s)                // add s to Q
+    while (!q.isEmpty()){        //     While Q is not empty
+        let n = q.dequeue()   //Let n be the front node of Q and remove it from Q.
+        if (g.identicalNodes(n,t)){//if n is the terminal node t:
+            path.push(t)    //push t to the list path
     
+            let m = prevMap.get(g.key(t));
+            path.push(m)
+            while (!g.identicalNodes(m,s)){
+                m = prevMap.get(g.key(m));
+                path.push(m)
+
+            }
+            
+            return path.reverse();
+            //Return the list of nodes that the procedure has traversed to reach n.
+            //End If       
+        }
+//         Add the unvisited neighbors of n to Q, mark them as visited and mark n as the node they came from.
+//         End While
+        for (const m of g.neighbors(n)) {
+            if (!visitedSet.has(g.key(m))) {
+                q.enqueue(m);
+                visitedSet.add(g.key(m));
+                prevMap.set(g.key(m),n);
+            }
+        }
+        }    
+//     Return the shortest-path tree rooted at node s.
+// End procedure
     return path;
 }  
 
